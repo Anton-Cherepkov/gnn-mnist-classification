@@ -1,5 +1,5 @@
-# gnn-cifar-10-classification
-Image classification using Graph Neural Networks (GNNs) with CIFAR-10 dataset
+# gnn-mnist-classification
+Image classification using Graph Neural Networks (GNNs) with MNIST dataset
 
 ## Description
 This repository is the implementation of paper [*A Graph Neural Network for superpixel image classification*](https://iopscience.iop.org/article/10.1088/1742-6596/1871/1/012071/pdf) by Jianwu Long , Zeran yan and Hongfa chen.
