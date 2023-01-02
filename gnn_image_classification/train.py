@@ -79,17 +79,20 @@ def evaluate(
 @click.option("--epochs", type=int, default=100)
 @click.option("--device", type=str, default="cpu")
 @click.option("--hidden-dim", type=int, default=152)
+@click.option("--lr", type=float, default=1e-3)
 def train(
     batch_size: int,
     epochs: int,
     device: str,
     hidden_dim: int,
+    lr: float,
 ) -> None:
     wandb.init(project="cifar-10-gnn-classification")
     wandb.config.batch_size = batch_size
     wandb.config.epochs = epochs
     wandb.config.device = device
     wandb.config.hidden_dim = hidden_dim
+    wandb.config.lr = lr
 
     wandb.define_metric("batch")
     wandb.define_metric("epoch")
@@ -99,7 +102,7 @@ def train(
 
     model = GNNImageClassificator(in_channels=3, hidden_dim=hidden_dim).to(device)
     train_loader, val_loader = build_train_val_dataloaders(batch_size=batch_size, device=device)
-    optimizer = torch.optim.Adam(lr=3e-4, params=model.parameters())
+    optimizer = torch.optim.Adam(lr=lr, params=model.parameters())
 
     batches_passed = 0
 
