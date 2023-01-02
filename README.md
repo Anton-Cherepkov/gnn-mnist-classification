@@ -24,4 +24,10 @@ I also published a tutorial for Google Colab: https://colab.research.google.com/
 |                  | MNIST accuracy |
 |------------------|-------------------|
 | **Authors' results** | 97.11             |
-| **My results**       | TBA             |
+| **My results**       | 74.59             |
+
+Notes:
+* The authors of the paper did not release any code and did not provide hyperparameters details like optimizer, learning rate, schedulers, linear layers sizes;
+* I am not sure whether my [readout operation](https://github.com/Anton-Cherepkov/gnn-mnist-classification/blob/master/gnn_image_classification/model.py#L60) is correct;
+
+The gap between my and authors' metrics may be due to these two facts.
