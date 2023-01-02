@@ -68,7 +68,7 @@ def train(
     wandb.define_metric("val_accuracy", step_metric="epoch")
     wandb.define_metric("val_loss", step_metric="epoch")
 
-    model = GNNImageClassificator(in_channels=3, hidden_dim=hidden_dim)
+    model = GNNImageClassificator(in_channels=3, hidden_dim=hidden_dim).to(device)
     train_loader, val_loader = build_train_val_dataloaders(batch_size=batch_size, device=device)
     optimizer = torch.optim.Adam(lr=3e-4, params=model.parameters())
 
