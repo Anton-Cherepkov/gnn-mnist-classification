@@ -29,7 +29,7 @@ def build_collate_fn(device: str | torch.device):
         collated = {
             "batch_node_features": batch_node_features,
             "batch_edge_indices": batch_edge_indices,
-            "classes": torch.LongTensor(classes),
+            "classes": torch.LongTensor(classes).to(device),
         }
 
         return collated
