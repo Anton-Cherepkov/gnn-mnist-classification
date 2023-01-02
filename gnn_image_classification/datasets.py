@@ -6,7 +6,7 @@ from torch_geometric.datasets.mnist_superpixels import MNISTSuperpixels
 
 def build_mnist_superpixels_dataset(train: bool) -> MNISTSuperpixels:
     return MNISTSuperpixels(
-        root="cifar-10-superpixels-dataset",
+        root="mnist-superpixels-dataset",
         train=train,
     )
 
