@@ -23,7 +23,7 @@ def train_one_epoch(
         classes = batch["classes"]
 
         logits = model(batch_node_features=batch_node_features, batch_edge_indices=batch_edge_indices)
-        predicted_classes = torch.amax(logits, dim=1)
+        predicted_classes = torch.argmax(logits, dim=1)
 
         loss = criterion(logits, classes).mean()
 
@@ -31,7 +31,7 @@ def train_one_epoch(
         loss.backward()
         optimizer.step()
 
-        accuracy = (predicted_classes == classes).float().mean()
+        accuracy = (predicted_classes == classes).to(torch.float32).mean()
 
         wandb.log({
             "train_accuracy": float(accuracy.detach().cpu().numpy()),
