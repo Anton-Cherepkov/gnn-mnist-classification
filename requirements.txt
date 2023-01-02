@@ -1,0 +1,15 @@
+-f https://data.pyg.org/whl/torch-1.13.0+cpu.html
+
+torch==1.13.1
+torchvision
+numpy
+matplotlib
+scikit-image
+torch-geometric
+pyg-lib
+torch-scatter
+torch-sparse
+opencv-python
+click
+wandb
+tqdm

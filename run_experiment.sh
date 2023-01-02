@@ -1,0 +1,1 @@
+PYTHONPATH=$(pwd) python gnn_image_classification/train.py "$@"
