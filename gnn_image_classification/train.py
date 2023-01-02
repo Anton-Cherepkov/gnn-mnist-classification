@@ -119,8 +119,12 @@ def train(
         examples_per_class=1,
     )
 
-    wandb.Image("all_classes.jpg")
-    wandb.Image("one_class.jpg")
+    wandb.log({
+        "sample_images": [
+            wandb.Image("all_classes.jpg"),
+            wandb.Image("one_class.jpg"),
+        ]
+    })
     # SAVE VISUALIZATION END
 
     batches_passed = 0
