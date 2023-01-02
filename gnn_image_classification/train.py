@@ -44,6 +44,36 @@ def train_one_epoch(
     return batches_passed
 
 
+@torch.no_grad()
+def evaluate(
+    model: GNNImageClassificator,
+    val_loader: DataLoader,
+    epochs_passed: int,
+) -> None:
+    model.eval()
+
+    accuracy_sum: float = 0.0
+    num_samples: int = 0
+
+    for batch in val_loader:
+        batch_node_features = batch["batch_node_features"]
+        batch_edge_indices = batch["batch_edge_indices"]
+        classes = batch["classes"]
+
+        logits = model(batch_node_features=batch_node_features, batch_edge_indices=batch_edge_indices)
+        predicted_classes = torch.argmax(logits, dim=1)
+
+        accuracy_sum += float((predicted_classes == classes).to(torch.float32).mean().cpu().numpy()) * len(classes)
+        num_samples += len(classes)
+
+    accuracy = accuracy_sum / num_samples
+
+    wandb.log({
+        "val_accuracy": accuracy,
+        "epoch": epochs_passed,
+    })
+
+
 @click.command()
 @click.option("--batch-size", type=int, default=64)
 @click.option("--epochs", type=int, default=100)
@@ -66,7 +96,6 @@ def train(
     wandb.define_metric("train_accuracy", step_metric="batch")
     wandb.define_metric("train_loss", step_metric="batch")
     wandb.define_metric("val_accuracy", step_metric="epoch")
-    wandb.define_metric("val_loss", step_metric="epoch")
 
     model = GNNImageClassificator(in_channels=3, hidden_dim=hidden_dim).to(device)
     train_loader, val_loader = build_train_val_dataloaders(batch_size=batch_size, device=device)
@@ -74,13 +103,19 @@ def train(
 
     batches_passed = 0
 
-    for epochs_passed in range(epochs):
+    for epoch_ix in range(epochs):
         batches_passed = train_one_epoch(
             model=model,
             optimizer=optimizer,
             train_loader=train_loader,
             criterion=torch.nn.CrossEntropyLoss(),
             batches_passed=batches_passed,
+        )
+
+        evaluate(
+            model=model,
+            val_loader=val_loader,
+            epochs_passed=epoch_ix + 1,
         )
 
 
