@@ -1,12 +1,14 @@
-from typing import Callable
+from typing import Callable, cast
 
 import click
 import torch
 import wandb
 from torch.utils.data import DataLoader
+from torch_geometric.datasets import MNISTSuperpixels
 
 from gnn_image_classification.datasets import build_train_val_dataloaders
 from gnn_image_classification.model import GNNImageClassificator
+from gnn_image_classification.visualize_graphs import visualize
 
 
 def train_one_epoch(
@@ -103,6 +105,23 @@ def train(
     model = GNNImageClassificator(in_channels=3, hidden_dim=hidden_dim).to(device)
     train_loader, val_loader = build_train_val_dataloaders(batch_size=batch_size, device=device)
     optimizer = torch.optim.Adam(lr=lr, params=model.parameters())
+
+    # SAVE VISUALIZATION
+    visualize(
+        cast(MNISTSuperpixels, train_loader.dataset),
+        image_name="all_classes.jpg",
+    )
+
+    visualize(
+        cast(MNISTSuperpixels, train_loader.dataset),
+        image_name="one_class.jpg",
+        classes=(4,),
+        examples_per_class=1,
+    )
+
+    wandb.save("all_classes.jpg")
+    wandb.save("one_class.jpg")
+    # SAVE VISUALIZATION END
 
     batches_passed = 0
 
