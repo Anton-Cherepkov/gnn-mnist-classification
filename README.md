@@ -17,7 +17,7 @@ Here are some samples for better understanding:
 ![Superpixels](/one_class.jpg?raw=true "Superpixels")
 
 ## Results 
-One may find the experiment logs here: [https://wandb.ai/acherepkov/cifar-10-gnn-classification/runs/dphbxqga](https://wandb.ai/acherepkov/mnist-gnn-classification/runs/dphbxqga).
+One may find the experiment logs here: https://wandb.ai/acherepkov/mnist-gnn-classification/runs/dphbxqga.
 
 I also published a tutorial for Google Colab: https://colab.research.google.com/drive/1d29NDjNMQ6I17rxTr8Wo6S-5nH3MGyXX?usp=sharing.
 
